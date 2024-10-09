@@ -1,0 +1,43 @@
+<div class="container">
+    <!-- Formulário para adicionar um item -->
+    <h1>Lista de Compras</h1>
+
+<form (ngSubmit)="addItem()" #shoppingListForm="ngForm">
+  <input 
+    type="text" 
+    [(ngModel)]="newItem" 
+    name="itemName" 
+    required 
+    placeholder="Adicione um item" 
+    #itemNameInput="ngModel"
+  />
+  <div *ngIf="itemNameInput.invalid && itemNameInput.touched">
+    <small *ngIf="itemNameInput.errors?.['required']">Por favor, adicione um nome válido.</small>
+  </div>
+  <button type="submit" [disabled]="shoppingListForm.invalid">Adicionar Item</button>
+</form>
+
+<h2>Itens a Comprar</h2>
+<ul>
+  <ng-container *ngFor="let item of items">
+    <li *ngIf="!item.isBought">
+      <span [ngClass]="{ 'bought': item.isBought }">{{ item.name }}</span>
+      <button (click)="markAsBought(item)">Marcar como Comprado</button>
+      <button (click)="editItem(item)">Editar</button>
+      <button (click)="deleteItem(item)">Excluir</button>
+    </li>
+  </ng-container>
+</ul>
+
+<h2>Itens Comprados</h2>
+<ul>
+  <ng-container *ngFor="let item of items">
+    <li *ngIf="item.isBought">
+      <span [ngClass]="{ 'bought': item.isBought }">{{ item.name }}</span>
+      <button (click)="deleteItem(item)">Excluir</button>
+    </li>
+  </ng-container>
+</ul>
+
+
+  
